@@ -1,0 +1,147 @@
+{
+  "name": "yoxable",
+  "version": "0.0.0-semantically-released",
+  "description": "Create an executable from a Yeoman generator",
+  "repository": "https://github.com/ryaninvents/yoxable",
+  "license": "MIT",
+  "author": "Ryan Kennedy <me@ryaninvents.com>",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "pack build",
+    "semantic-release": "semantic-release",
+    "test": "cross-env NODE_ENV=test jest"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "modules": "cjs",
+              "targets": {
+                "node": true
+              }
+            }
+          ]
+        ]
+      }
+    },
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "modules": false,
+          "targets": {
+            "node": true
+          }
+        }
+      ]
+    ]
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "xo",
+      "prettier"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/**",
+          "*.test.js"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "func-names": "off"
+    }
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
+    ]
+  },
+  "dependencies": {
+    "cli-list": "^0.2.0",
+    "meow": "^5.0.0",
+    "yeoman-environment": "^2.3.4"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.4",
+    "@pika/pack": "^0.3.1",
+    "@pika/plugin-build-node": "^0.3.14",
+    "@pika/plugin-standard-pkg": "^0.3.14",
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/commit-analyzer": "^6.1.0",
+    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/github": "^5.2.10",
+    "@semantic-release/npm": "^5.1.4",
+    "@semantic-release/release-notes-generator": "^7.1.4",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.13.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-config-xo": "^0.25.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "jest": "^24.1.0",
+    "lint-staged": "^8.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.15.2",
+    "semantic-release": "^15.13.3",
+    "yeoman-generator": "^3.2.0"
+  },
+  "@pika/pack": {
+    "pipeline": [
+      [
+        "@pika/plugin-standard-pkg",
+        {
+          "exclude": [
+            "__tests__/**"
+          ]
+        }
+      ],
+      [
+        "@pika/plugin-build-node",
+        {
+          "minNodeVersion": "8"
+        }
+      ]
+    ]
+  },
+  "release": {
+    "branch": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/npm"
+      ],
+      "@semantic-release/github",
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ]
+    ]
+  }
+}
