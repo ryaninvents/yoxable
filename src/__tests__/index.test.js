@@ -16,6 +16,12 @@ describe('yoxable', () => {
     }
   }
 
+  class GeneratorDefault extends YoGen {
+    end() {
+      state.finishedDefault = true;
+    }
+  }
+
   beforeEach(() => {
     state = {};
   });
@@ -26,7 +32,7 @@ describe('yoxable', () => {
     beforeAll(() => {
       yox = yoxable({
         pkg: require('../../package.json'),
-        generators: [Generator1, Generator2],
+        generators: [GeneratorDefault, Generator1, Generator2],
       });
     });
 
@@ -34,6 +40,11 @@ describe('yoxable', () => {
       await yox(['generator1,', 'generator2']);
       expect(state.finishedGen1).toBe(true);
       expect(state.finishedGen2).toBe(true);
+    });
+
+    it('should run the first generator if no args provided', async () => {
+      await yox([]);
+      expect(state.finishedDefault).toBe(true);
     });
   });
 });

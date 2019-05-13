@@ -15,6 +15,8 @@ export default function yoxable({
   getGeneratorOptions = defaultGetGeneratorOptions,
   createAdapter = () => new TerminalAdapter(),
 }) {
+  const defaultGeneratorName = getGeneratorOptions(generators[0]).name;
+
   function registerGenerators(env) {
     generators.forEach((generator) => {
       const { name } = getGeneratorOptions(generator);
@@ -47,7 +49,8 @@ export default function yoxable({
         .map(
           ({ args, opts }) =>
             new Promise((resolve, reject) => {
-              env.run(args, opts, (error) => {
+              let runArgs = args && args.length ? args : [defaultGeneratorName];
+              env.run(runArgs, opts, (error) => {
                 if (error) {
                   reject(error);
                   return;
