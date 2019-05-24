@@ -28,6 +28,11 @@ export default function yoxable({
     const env = yo.createEnv([], {}, createAdapter());
     registerGenerators(env);
 
+    if (argv.indexOf('--help') === -1) {
+      console.log(env.help(`npx ${pkg.name}`));
+      return;
+    }
+
     await new Promise((resolve, reject) => {
       try {
         env.lookup(() => resolve());
