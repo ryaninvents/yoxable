@@ -28,7 +28,7 @@ export default function yoxable({
     const env = yo.createEnv([], {}, createAdapter());
     registerGenerators(env);
 
-    if (argv.indexOf('--help') === -1) {
+    if (argv.indexOf('--help') !== -1) {
       console.log(env.help(`npx ${pkg.name}`));
       return;
     }
